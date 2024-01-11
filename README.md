@@ -1,37 +1,39 @@
-# Official YOLOv7
+# YOLOv7 Custom Object Detection for Commonly Type of Vehicles in Indonesia
 
-Implementation of paper - [YOLOv7: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors](https://arxiv.org/abs/2207.02696)
+Custom object detection using YOLOv7-tiny for detecting and classifying type of vehicles that are commonly found in Indonesia.
 
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/yolov7-trainable-bag-of-freebies-sets-new/real-time-object-detection-on-coco)](https://paperswithcode.com/sota/real-time-object-detection-on-coco?p=yolov7-trainable-bag-of-freebies-sets-new)
-[![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/akhaliq/yolov7)
-<a href="https://colab.research.google.com/gist/AlexeyAB/b769f5795e65fdab80086f6cb7940dae/yolov7detection.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
-[![arxiv.org](http://img.shields.io/badge/cs.CV-arXiv%3A2207.02696-B31B1B.svg)](https://arxiv.org/abs/2207.02696)
+## Custom Dataset
 
-<div align="center">
-    <a href="./">
-        <img src="./figure/performance.png" width="79%"/>
-    </a>
-</div>
+The object to be detected as a vehicle is the type of vehicles that matches the specification from [Surat Edaran Direktur Jenderal Bina Marga Nomor 22/SE/Db/2021 tentang Manual Aplikasi Sistem Program Pemeliharaan Jalan Provinsi/Kabupaten atau Provincial/Kabupaten Road](https://binamarga.pu.go.id/index.php/nspk/detail/surat-edaran-direktur-jenderal-bina-marga-nomor-22sedb2021-tentang-manual-aplikasi-sistem-program-pemeliharaan-jalan-provinsikabupaten-atau-provincialkabupaten-road-management-system-pkrms-manual-nomor-04mbm2021).
 
-## Web Demo
+From that document, there are 12 types of vehicles. 
+These vehicles are often on the road.
 
-- Integrated into [Huggingface Spaces 🤗](https://huggingface.co/spaces/akhaliq/yolov7) using Gradio. Try out the Web Demo [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/akhaliq/yolov7)
+We collected vehicle images from the internet, such as Google and Kaggle datasets. 
+But those images is not enough, we collected more images from road traffic video that we personally recorded to use as a dataset. <br>
+The label or class distribution of each type of vehicles in the dataset is shown in the table below.
 
-## Performance 
+| Label | Type of vehicle | Total | Percentage |
+| :-: | :-: | :-: | :-: |
+| 1 | Motorcycle, bajaj | 10612 | 25.90% |
+| 2 | Sedan, jeep, family car, station wagon | 13479 | 25.90% |
+| 3 | Mini-bus, commuter car | 1686 | 4.11% |
+| 4 | Pick-up | 3350 | 8.18% |
+| 5a | Small bus | 1053 | 2.57% |
+| 5b | Big bus | 2198 | 5.37% |
+| 6a | 4-wheeled truck | 2143 | 5.22% |
+| 6b | 6-wheeled truck | 2354 | 5.75% |
+| 7a | 3-axle truck | 1143 | 2.79% |
+| 7b | Double load truck | 100 | 0.24% |
+| 7c | Truck trailer | 746 | 1.82% |
+| 8 | Non-motorized vehicle | 2104 | 5.14% |
+|| **Total number of labels** | **40968** | **100%** |
 
-MS COCO
-
-| Model | Test Size | AP<sup>test</sup> | AP<sub>50</sub><sup>test</sup> | AP<sub>75</sub><sup>test</sup> | batch 1 fps | batch 32 average time |
-| :-- | :-: | :-: | :-: | :-: | :-: | :-: |
-| [**YOLOv7**](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7.pt) | 640 | **51.4%** | **69.7%** | **55.9%** | 161 *fps* | 2.8 *ms* |
-| [**YOLOv7-X**](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7x.pt) | 640 | **53.1%** | **71.2%** | **57.8%** | 114 *fps* | 4.3 *ms* |
-|  |  |  |  |  |  |  |
-| [**YOLOv7-W6**](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-w6.pt) | 1280 | **54.9%** | **72.6%** | **60.1%** | 84 *fps* | 7.6 *ms* |
-| [**YOLOv7-E6**](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-e6.pt) | 1280 | **56.0%** | **73.5%** | **61.2%** | 56 *fps* | 12.3 *ms* |
-| [**YOLOv7-D6**](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-d6.pt) | 1280 | **56.6%** | **74.0%** | **61.8%** | 44 *fps* | 15.0 *ms* |
-| [**YOLOv7-E6E**](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-e6e.pt) | 1280 | **56.8%** | **74.4%** | **62.1%** | 36 *fps* | 18.7 *ms* |
+The dataset is publicly available on <a href="https://www.kaggle.com/datasets/mochimamrifai/lhr-yolov7"><img src="https://img.shields.io/badge/Kaggle-blue.svg?logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTYiIHdpZHRoPSIxMCIgdmlld0JveD0iMCAwIDMyMCA1MTIiPjwhLS0hRm9udCBBd2Vzb21lIEZyZWUgNi41LjEgYnkgQGZvbnRhd2Vzb21lIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20gTGljZW5zZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tL2xpY2Vuc2UvZnJlZSBDb3B5cmlnaHQgMjAyNCBGb250aWNvbnMsIEluYy4tLT48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMzA0LjIgNTAxLjVMMTU4LjQgMzIwLjMgMjk4LjIgMTg1YzIuNi0yLjcgMS43LTEwLjUtNS4zLTEwLjVoLTY5LjJjLTMuNSAwLTcgMS44LTEwLjUgNS4zTDgwLjkgMzEzLjVWNy41cTAtNy41LTcuNS03LjVIMjEuNVExNCAwIDE0IDcuNXY0OTdxMCA3LjUgNy41IDcuNWg1MS45cTcuNSAwIDcuNS03LjV2LTEwOWwzMC44LTI5LjMgMTEwLjUgMTQwLjZjMyAzLjUgNi41IDUuMyAxMC41IDUuM2g2Ni45cTUuMyAwIDYtM3oiLz48L3N2Zz4="/></a>
 
 ## Installation
+
+This section is the installation process from YOLOv7 official repository.
 
 Docker environment (recommended)
 <details><summary> <b>Expand</b> </summary>
@@ -53,97 +55,205 @@ cd /yolov7
 
 </details>
 
-## Testing
 
-[`yolov7.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7.pt) [`yolov7x.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7x.pt) [`yolov7-w6.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-w6.pt) [`yolov7-e6.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-e6.pt) [`yolov7-d6.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-d6.pt) [`yolov7-e6e.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-e6e.pt)
+## Training and Testing
 
-``` shell
-python test.py --data data/coco.yaml --img 640 --batch 32 --conf 0.001 --iou 0.65 --device 0 --weights yolov7.pt --name yolov7_640_val
+**Complete process of training and testing is available on my Kaggle's notebook** <a href="https://www.kaggle.com/code/mochimamrifai/yolov7customobjectdetection"><img src="https://img.shields.io/badge/Open%20in%20Kaggle-blue.svg?logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTYiIHdpZHRoPSIxMCIgdmlld0JveD0iMCAwIDMyMCA1MTIiPjwhLS0hRm9udCBBd2Vzb21lIEZyZWUgNi41LjEgYnkgQGZvbnRhd2Vzb21lIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20gTGljZW5zZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tL2xpY2Vuc2UvZnJlZSBDb3B5cmlnaHQgMjAyNCBGb250aWNvbnMsIEluYy4tLT48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMzA0LjIgNTAxLjVMMTU4LjQgMzIwLjMgMjk4LjIgMTg1YzIuNi0yLjcgMS43LTEwLjUtNS4zLTEwLjVoLTY5LjJjLTMuNSAwLTcgMS44LTEwLjUgNS4zTDgwLjkgMzEzLjVWNy41cTAtNy41LTcuNS03LjVIMjEuNVExNCAwIDE0IDcuNXY0OTdxMCA3LjUgNy41IDcuNWg1MS45cTcuNSAwIDcuNS03LjV2LTEwOWwzMC44LTI5LjMgMTEwLjUgMTQwLjZjMyAzLjUgNi41IDUuMyAxMC41IDUuM2g2Ni45cTUuMyAwIDYtM3oiLz48L3N2Zz4="/></a>
+
+Before starting the training process, the first step is to clone the repository from the official YOLOv7 <a href="https://github.com/WongKinYiu/yolov7"> <img src="https://img.shields.io/badge/YOLOv7%20Official%20Repository-on%20Github-%23181717.svg?&logo=github&logoColor=white" /></a>
+
+```shell
+git clone https://github.com/WongKinYiu/yolov7.git
 ```
 
-You will get the results:
+Install the required modules for YOLOv7
 
-```
- Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.51206
- Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.69730
- Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.55521
- Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.35247
- Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.55937
- Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.66693
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.38453
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.63765
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.68772
- Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.53766
- Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.73549
- Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.83868
+```shell
+cd yolov7
+pip install -r requirements.txt
 ```
 
-To measure accuracy, download [COCO-annotations for Pycocotools](http://images.cocodataset.org/annotations/annotations_trainval2017.zip) to the `./coco/annotations/instances_val2017.json`
+### Transfer Learning
 
-## Training
+Transfer learning is a method to train a pre-trained model using custom dataset.
 
-Data preparation
-
-``` shell
-bash scripts/get_coco.sh
+```shell
+python train.py --device 0 --batch-size 8 --epochs 100 \
+ --img 640 640 --data './data/custom_coco.yaml' \
+ --hyp './data/hyp.scratch.custom.yaml' \
+ --cfg './cfg/training/yolov7-tiny-custom.yaml' \
+ --weights './weights/yolov7-tiny.pt' \
+ --name yolov7-tiny-custom
 ```
 
-* Download MS COCO dataset images ([train](http://images.cocodataset.org/zips/train2017.zip), [val](http://images.cocodataset.org/zips/val2017.zip), [test](http://images.cocodataset.org/zips/test2017.zip)) and [labels](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/coco2017labels-segments.zip). If you have previously used a different version of YOLO, we strongly recommend that you delete `train2017.cache` and `val2017.cache` files, and redownload [labels](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/coco2017labels-segments.zip) 
+The above command will run the training process using single GPU. The batch size used during training is 8 and epochs are 100.
 
-Single GPU training
+### Resume Training
 
-``` shell
-# train p5 models
-python train.py --workers 8 --device 0 --batch-size 32 --data data/coco.yaml --img 640 640 --cfg cfg/training/yolov7.yaml --weights '' --name yolov7 --hyp data/hyp.scratch.p5.yaml
+If the training process is interrupted or forced to pause while not reaching the last epoch, we can resume the training process.
 
-# train p6 models
-python train_aux.py --workers 8 --device 0 --batch-size 16 --data data/coco.yaml --img 1280 1280 --cfg cfg/training/yolov7-w6.yaml --weights '' --name yolov7-w6 --hyp data/hyp.scratch.p6.yaml
+```shell
+python train.py --device 0 --batch-size 8 --epochs 100 \
+ --img 640 640 --data './data/custom_coco.yaml' \
+ --hyp './data/hyp.scratch.custom.yaml' \
+ --cfg './cfg/training/yolov7-tiny-custom.yaml' \
+ --weights './runs/train/yolov7-tiny-custom/weights/last.pt' \
+ --name yolov7-tiny-custom \
+ --resume
 ```
 
-Multiple GPU training
+### Testing
 
-``` shell
-# train p5 models
-python -m torch.distributed.launch --nproc_per_node 4 --master_port 9527 train.py --workers 8 --device 0,1,2,3 --sync-bn --batch-size 128 --data data/coco.yaml --img 640 640 --cfg cfg/training/yolov7.yaml --weights '' --name yolov7 --hyp data/hyp.scratch.p5.yaml
-
-# train p6 models
-python -m torch.distributed.launch --nproc_per_node 8 --master_port 9527 train_aux.py --workers 8 --device 0,1,2,3,4,5,6,7 --sync-bn --batch-size 128 --data data/coco.yaml --img 1280 1280 --cfg cfg/training/yolov7-w6.yaml --weights '' --name yolov7-w6 --hyp data/hyp.scratch.p6.yaml
+```shell
+python test.py --data './data/custom_coco.yaml' \
+ --img 640 --batch 32 --conf-thres 0.001 \
+ --iou-thres 0.65 --device 0 \
+ --weights './runs/train/yolov7-tiny-custom/weights/best.pt' \
+ --exist-ok --name yolov7-tiny-custom_val
 ```
 
-## Transfer learning
+## Performance
 
-[`yolov7_training.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7_training.pt) [`yolov7x_training.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7x_training.pt) [`yolov7-w6_training.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-w6_training.pt) [`yolov7-e6_training.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-e6_training.pt) [`yolov7-d6_training.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-d6_training.pt) [`yolov7-e6e_training.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-e6e_training.pt)
+The performance of the YOLOv7-tiny custom object detection model was tested on an NVIDIA Jetson Nano device using [video](./src/videos/sample_2.mp4).
 
-Single GPU finetuning for custom dataset
-
-``` shell
-# finetune p5 models
-python train.py --workers 8 --device 0 --batch-size 32 --data data/custom.yaml --img 640 640 --cfg cfg/training/yolov7-custom.yaml --weights 'yolov7_training.pt' --name yolov7-custom --hyp data/hyp.scratch.custom.yaml
-
-# finetune p6 models
-python train_aux.py --workers 8 --device 0 --batch-size 16 --data data/custom.yaml --img 1280 1280 --cfg cfg/training/yolov7-w6-custom.yaml --weights 'yolov7-w6_training.pt' --name yolov7-w6-custom --hyp data/hyp.scratch.custom.yaml
-```
-
-## Re-parameterization
-
-See [reparameterization.ipynb](tools/reparameterization.ipynb)
+<table>
+    <thead>
+        <tr>
+            <th>Type of Vehicle</th>
+            <th>True Positive</th>
+            <th>False Positive</th>
+            <th>False Negative</th>
+            <th>Actual Vehicle Count</th>
+            <th>Average FPS</th>
+        </tr>
+    </thead>
+    <tbody align="center">
+        <tr>
+            <td>1</td>
+            <td>132</td>
+            <td>0</td>
+            <td>5</td>
+            <td>137</td>
+            <td rowspan=14>6 FPS</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>59</td>
+            <td>1</td>
+            <td>0</td>
+            <td>60</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr> 
+        <tr>
+            <td>4</td>
+            <td>5</td>
+            <td>0</td>
+            <td>0</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>5a</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>5b</td>
+            <td>1</td>
+            <td>0</td>
+            <td>0</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>6a</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>6b</td>
+            <td>1</td>
+            <td>1</td>
+            <td>0</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>7a</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>7b</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>7c</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td><strong>Total</strong></td>
+            <td>198</td>
+            <td>2</td>
+            <td>5</td>
+            <td>205</td>
+        </tr>
+        <tr>
+            <td><strong>Percentage</strong></td>
+            <td>96.58%</td>
+            <td>0.98%</td>
+            <td>2.44%</td>
+            <td>100%</td>
+        </tr>
+    </tbody>
+</table>
 
 ## Inference
 
 On video:
 ``` shell
-python detect.py --weights yolov7.pt --conf 0.25 --img-size 640 --source yourvideo.mp4
-```
-
-On image:
-``` shell
-python detect.py --weights yolov7.pt --conf 0.25 --img-size 640 --source inference/images/horses.jpg
+python detect.py --device 0 --weights './runs/train/yolov7-tiny-custom/weights/best.pt' \
+ --conf 0.4 --img-size 640 --no-trace \
+ --source 'src/videos/sample_2.mp4'
 ```
 
 <div align="center">
-    <a href="./">
-        <img src="./figure/horses_prediction.jpg" width="59%"/>
-    </a>
+    <video width="640" controls>
+        <source src=".src/videos/result.mp4" type="video/mp4">
+    </video>
+</div>
+
+On image:
+``` shell
+python detect.py --device 0 --weights './runs/train/yolov7-tiny-custom/weights/best.pt' \
+ --conf 0.4 --img-size 640 --no-trace \
+ --source 'src/images/image.jpg'
+```
+
+<div align="center">
+    <img src="./src/images/result.jpg" width="640"/>
 </div>
 
 
@@ -183,119 +293,11 @@ python ./tensorrt-python/export.py -o yolov7-tiny.onnx -e yolov7-tiny-nms.trt -p
 
 Tested with: Python 3.7.13, Pytorch 1.12.0+cu113
 
-## Pose estimation
-
-[`code`](https://github.com/WongKinYiu/yolov7/tree/pose) [`yolov7-w6-pose.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-w6-pose.pt)
-
-See [keypoint.ipynb](https://github.com/WongKinYiu/yolov7/blob/main/tools/keypoint.ipynb).
-
-<div align="center">
-    <a href="./">
-        <img src="./figure/pose.png" width="39%"/>
-    </a>
-</div>
-
-
-## Instance segmentation (with NTU)
-
-[`code`](https://github.com/WongKinYiu/yolov7/tree/mask) [`yolov7-mask.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-mask.pt)
-
-See [instance.ipynb](https://github.com/WongKinYiu/yolov7/blob/main/tools/instance.ipynb).
-
-<div align="center">
-    <a href="./">
-        <img src="./figure/mask.png" width="59%"/>
-    </a>
-</div>
-
-## Instance segmentation
-
-[`code`](https://github.com/WongKinYiu/yolov7/tree/u7/seg) [`yolov7-seg.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-seg.pt)
-
-YOLOv7 for instance segmentation (YOLOR + YOLOv5 + YOLACT)
-
-| Model | Test Size | AP<sup>box</sup> | AP<sub>50</sub><sup>box</sup> | AP<sub>75</sub><sup>box</sup> | AP<sup>mask</sup> | AP<sub>50</sub><sup>mask</sup> | AP<sub>75</sub><sup>mask</sup> |
-| :-- | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| **YOLOv7-seg** | 640 | **51.4%** | **69.4%** | **55.8%** | **41.5%** | **65.5%** | **43.7%** |
-
-## Anchor free detection head
-
-[`code`](https://github.com/WongKinYiu/yolov7/tree/u6) [`yolov7-u6.pt`](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-u6.pt)
-
-YOLOv7 with decoupled TAL head (YOLOR + YOLOv5 + YOLOv6)
-
-| Model | Test Size | AP<sup>val</sup> | AP<sub>50</sub><sup>val</sup> | AP<sub>75</sub><sup>val</sup> |
-| :-- | :-: | :-: | :-: | :-: |
-| **YOLOv7-u6** | 640 | **52.6%** | **69.7%** | **57.3%** |
-
-
-## Citation
-
-```
-@inproceedings{wang2023yolov7,
-  title={{YOLOv7}: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors},
-  author={Wang, Chien-Yao and Bochkovskiy, Alexey and Liao, Hong-Yuan Mark},
-  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-  year={2023}
-}
-```
-
-```
-@article{wang2023designing,
-  title={Designing Network Design Strategies Through Gradient Path Analysis},
-  author={Wang, Chien-Yao and Liao, Hong-Yuan Mark and Yeh, I-Hau},
-  journal={Journal of Information Science and Engineering},
-  year={2023}
-}
-```
-
-
-## Teaser
-
-YOLOv7-semantic & YOLOv7-panoptic & YOLOv7-caption
-
-<div align="center">
-    <a href="./">
-        <img src="./figure/tennis.jpg" width="24%"/>
-    </a>
-    <a href="./">
-        <img src="./figure/tennis_semantic.jpg" width="24%"/>
-    </a>
-    <a href="./">
-        <img src="./figure/tennis_panoptic.png" width="24%"/>
-    </a>
-    <a href="./">
-        <img src="./figure/tennis_caption.png" width="24%"/>
-    </a>
-</div>
-
-YOLOv7-semantic & YOLOv7-detection & YOLOv7-depth (with NTUT)
-
-<div align="center">
-    <a href="./">
-        <img src="./figure/yolov7_city.jpg" width="80%"/>
-    </a>
-</div>
-
-YOLOv7-3d-detection & YOLOv7-lidar & YOLOv7-road (with NTUT)
-
-<div align="center">
-    <a href="./">
-        <img src="./figure/yolov7_3d.jpg" width="30%"/>
-    </a>
-    <a href="./">
-        <img src="./figure/yolov7_lidar.jpg" width="30%"/>
-    </a>
-    <a href="./">
-        <img src="./figure/yolov7_road.jpg" width="30%"/>
-    </a>
-</div>
-
-
 ## Acknowledgements
 
 <details><summary> <b>Expand</b> </summary>
 
+* [https://github.com/WongKinYiu/yolov7](https://github.com/WongKinYiu/yolov7)
 * [https://github.com/AlexeyAB/darknet](https://github.com/AlexeyAB/darknet)
 * [https://github.com/WongKinYiu/yolor](https://github.com/WongKinYiu/yolor)
 * [https://github.com/WongKinYiu/PyTorch_YOLOv4](https://github.com/WongKinYiu/PyTorch_YOLOv4)

@@ -14,7 +14,6 @@ from utils.general import check_img_size, check_requirements, check_imshow, non_
 from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized, TracedModel
 
-
 def detect(save_img=False):
     source, weights, view_img, save_txt, imgsz, trace = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size, not opt.no_trace
     save_img = not opt.nosave and not source.endswith('.txt')  # save inference images
@@ -25,6 +24,9 @@ def detect(save_img=False):
     save_dir = Path(increment_path(Path(opt.project) / opt.name, exist_ok=opt.exist_ok))  # increment run
     (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
 
+    FPS = []
+    inferenceTime = []
+    
     # Initialize
     set_logging()
     device = select_device(opt.device)
@@ -58,7 +60,10 @@ def detect(save_img=False):
 
     # Get names and colors
     names = model.module.names if hasattr(model, 'module') else model.names
-    colors = [[random.randint(0, 255) for _ in range(3)] for _ in names]
+    colors = [[67, 204, 86], [170, 204, 67], [46, 81, 163], 
+    [14, 100, 230], [148, 31, 37], [158, 31, 67],
+    [38, 171, 169], [42, 42, 140], [20, 20, 199],
+    [12, 17, 79], [12, 79, 75], [136, 148, 7]]
 
     # Run inference
     if device.type != 'cpu':
@@ -67,6 +72,7 @@ def detect(save_img=False):
     old_img_b = 1
 
     t0 = time.time()
+    startTime = 0
     for path, img, im0s, vid_cap in dataset:
         img = torch.from_numpy(img).to(device)
         img = img.half() if half else img.float()  # uint8 to fp16/32
@@ -125,13 +131,26 @@ def detect(save_img=False):
                             f.write(('%g ' * len(line)).rstrip() % line + '\n')
 
                     if save_img or view_img:  # Add bbox to image
-                        label = f'{names[int(cls)]} {conf:.2f}'
+                        label = f'{names[int(cls)]}: {conf:.2f}'
                         plot_one_box(xyxy, im0, label=label, color=colors[int(cls)], line_thickness=1)
 
             # Print time (inference + NMS)
             print(f'{s}Done. ({(1E3 * (t2 - t1)):.1f}ms) Inference, ({(1E3 * (t3 - t2)):.1f}ms) NMS')
 
             # Stream results
+            if dataset.mode != 'image':
+                currentTime = time.time()
+                
+                fps = 1/(currentTime - startTime)
+                FPS = FPS.append(fps)
+                startTime = currentTime
+                speed = f'FPS: {int(fps)} Inference time: {(1E3 * (t2 - t1)):.1f}ms'
+                inferenceTime.append(1E3 * (t2 - t1))
+                
+                cv2.putText(im0, speed, (20, 60), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 2)
+                # "FPS: " + str(int(fps))
+                # print(f"FPS: {fps}")
+                
             if view_img:
                 cv2.imshow(str(p), im0)
                 cv2.waitKey(1)  # 1 millisecond
@@ -158,10 +177,12 @@ def detect(save_img=False):
 
     if save_txt or save_img:
         s = f"\n{len(list(save_dir.glob('labels/*.txt')))} labels saved to {save_dir / 'labels'}" if save_txt else ''
-        #print(f"Results saved to {save_dir}{s}")
+        print(f"Results saved to {save_dir}{s}")
 
     print(f'Done. ({time.time() - t0:.3f}s)')
-
+    #print(FPS)
+    print(f'Average FPS: {sum(FPS) / len(FPS)}')
+    print(f'Average inference time: {sum(inferenceTime) / len(inferenceTime)} ms')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
