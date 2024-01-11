@@ -239,11 +239,7 @@ python detect.py --device 0 --weights './runs/train/yolov7-tiny-custom/weights/b
  --source 'src/videos/sample_2.mp4'
 ```
 
-<div align="center">
-    <video width="640" controls>
-        <source src=".src/videos/result.mp4" type="video/mp4">
-    </video>
-</div>
+[![Watch the video](https://img.youtube.com/vi/Tjeui6epCZM/maxresdefault.jpg)](https://youtu.be/Tjeui6epCZM)
 
 On image:
 ``` shell
@@ -255,7 +251,6 @@ python detect.py --device 0 --weights './runs/train/yolov7-tiny-custom/weights/b
 <div align="center">
     <img src="./src/images/result.jpg" width="640"/>
 </div>
-
 
 ## Export
 
