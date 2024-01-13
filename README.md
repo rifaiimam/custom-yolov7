@@ -239,7 +239,7 @@ python detect.py --device 0 --weights './runs/train/yolov7-tiny-custom/weights/b
  --source 'src/videos/sample_2.mp4'
 ```
 
-[![Watch the video](https://img.youtube.com/vi/Tjeui6epCZM/maxresdefault.jpg)](https://youtu.be/Tjeui6epCZM)
+[![Watch the video](https://img.youtube.com/vi/Tjeui6epCZM/hqdefault.jpg)](https://youtu.be/Tjeui6epCZM)
 
 On image:
 ``` shell
@@ -249,8 +249,76 @@ python detect.py --device 0 --weights './runs/train/yolov7-tiny-custom/weights/b
 ```
 
 <div align="center">
-    <img src="./src/images/result.jpg" width="640"/>
+    <img src="./src/images/result.jpg" width="65%"/>
 </div>
+
+## Deployment on Jetson Nano
+1. Clone this repository.
+   ```shell
+   git clone https://github.com/rifaiimam/custom-yolov7.git
+   ```
+2. Install pip.
+   ```shell
+   sudo apt-get update
+   sudo apt-get install python3-pip
+   ```
+3. Install required modules for YOLOv7 manually.
+   ```shell
+   # Install PyYAML
+   pip3 install -U PyYAML
+
+   # Install tqdm
+   pip3 install tqdm
+
+   # Install Cython
+   pip3 install cython==0.29.32
+
+   # Install numpy
+   pip3 install numpy==1.19.5
+
+   # Install libjpeg
+   sudo apt-get install libjpeg-dev
+
+   # Install matplotlib
+   pip3 install matplotlib
+
+   # Install gfortran, libopenblas, liblapack
+   sudo apt-get install gfortran libopenblas-dev liblapack-dev
+
+   # Install scipy
+   pip3 install scipy
+
+   # Install typing-extensions
+   pip3 install typing-extensions
+   ```
+4. Install Torch and Torchvision. Follow [PyTorch for Jetson](https://forums.developer.nvidia.com/t/pytorch-for-jetson/72048) documentations for more information.
+   ```shell
+   wget https://nvidia.box.com/shared/static/fjtbno0vpo676a25cgvuqc1wty0fkkg6.whl -O torch-1.10.0-cp36-cp36m-linux_aarch64.whl
+   sudo apt-get install python3-pip libopenblas-base libopenmpi-dev libomp-dev
+   pip3 install torch-1.10.0-cp36-cp36m-linux_aarch64.whl
+   sudo apt-get install libjpeg-dev zlib1g-dev libpython3-dev libopenblas-dev libavcodec-dev libavformat-dev libswscale-dev
+   git clone --branch v0.11.1 https://github.com/pytorch/vision torchvision
+   cd torchvision
+   export BUILD_VERSION=0.11.1
+   python3 setup.py install --user
+   cd ../
+   ```
+5. Verify the installation of Torch and Torchvision from python interpreter. To launch python interpreter type python3 on terminal and press Enter.
+   ```py
+   >>> import torch
+   >>> print(torch.__version__)
+   >>> print('CUDA available: ' + str(torch.cuda.is_available()))
+   >>> print('cuDNN version: ' + str(torch.backends.cudnn.version()))
+   >>> a = torch.cuda.FloatTensor(2).zero_()
+   >>> print('Tensor a = ' + str(a))
+   >>> b = torch.randn(2).cuda()
+   >>> print('Tensor b = ' + str(b))
+   >>> c = a + b
+   >>> print('Tensor c = ' + str(c))
+   >>> import torchvision
+   >>> print(torchvision.__version__)
+   ```
+6. The last step is to download your YOLOv7-tiny custom object detection. You can try to run inference by executing `detect.py`
 
 ## Export
 
