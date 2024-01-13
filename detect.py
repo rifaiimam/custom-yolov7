@@ -72,7 +72,7 @@ def detect(save_img=False):
     old_img_b = 1
 
     t0 = time.time()
-    startTime = 0
+    # startTime = t0
     for path, img, im0s, vid_cap in dataset:
         img = torch.from_numpy(img).to(device)
         img = img.half() if half else img.float()  # uint8 to fp16/32
@@ -139,13 +139,14 @@ def detect(save_img=False):
 
             # Stream results
             if dataset.mode != 'image':
-                currentTime = time.time()
-                
-                fps = 1/(currentTime - startTime)
-                FPS = FPS.append(fps)
-                startTime = currentTime
-                speed = f'FPS: {int(fps)} Inference time: {(1E3 * (t2 - t1)):.1f}ms'
-                inferenceTime.append(1E3 * (t2 - t1))
+                # currentTime = time.time()
+
+                inference = 1E3 * (t2 - t1)
+                fps = 1/(inference / 1E3)
+                FPS.append(fps)
+                # startTime = currentTime
+                speed = f'FPS: {int(fps)} Inference time: {inference:.1f}ms'
+                inferenceTime.append(inference)
                 
                 cv2.putText(im0, speed, (20, 60), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0), 2)
                 # "FPS: " + str(int(fps))
